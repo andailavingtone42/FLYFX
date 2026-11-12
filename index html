@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLYFX | Forex Trading</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07111f;color:white;font-family:Arial,sans-serif}
+header{padding:22px;background:#101e31;display:flex;justify-content:space-between}
+.logo{color:#00e5a0;font-size:25px;font-weight:bold}
+.hero{text-align:center;padding:65px 20px}
+h1{font-size:42px}
+.green{color:#00e5a0}
+p{color:#b8c5d5;line-height:1.6}
+button{background:#00e5a0;border:0;padding:14px 24px;border-radius:7px;font-weight:bold}
+.container{padding:20px;max-width:900px;margin:auto}
+.card{background:#12243a;padding:22px;border-radius:12px;margin:15px 0}
+.price{font-size:27px;color:#00e5a0}
+footer{text-align:center;padding:30px;color:#8999aa}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">FLYFX</div>
+<div>FOREX ANALYSIS</div>
+</header>
+
+<section class="hero">
+<h1>TRADE SMARTER WITH <span class="green">FLYFX</span></h1>
+<p>Your Forex market analysis and trading signals platform.</p>
+<button onclick="document.getElementById('signals').scrollIntoView()">Explore Signals</button>
+</section>
+
+<div class="container" id="signals">
+<h2>Market Watch</h2>
+<div class="card">
+<h3>EUR/USD</h3>
+<p>Forex market analysis</p>
+<div class="price">Market data pending</div>
+</div>
+<div class="card">
+<h3>GBP/USD</h3>
+<p>Forex market analysis</p>
+<div class="price">Market data pending</div>
+</div>
+<div class="card">
+<h3>XAU/USD (GOLD)</h3>
+<p>Gold market analysis</p>
+<div class="price">Market data pending</div>
+</div>
+
+<h2>AI Market Scanner</h2>
+<div class="card">
+<p>Analyze market trends and identify potential trading opportunities.</p>
+<button onclick="alert('AI scanner coming soon!')">Launch AI Scanner</button>
+</div>
+</div>
+
+<footer>
+FLYFX © 2026 | Trade responsibly.
+<p>Forex trading involves risk. This website does not guarantee profits.</p>
+</footer>
+</body>
+</html>
