@@ -3,58 +3,63 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FLYFX | Forex Trading</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#07111f;color:white;font-family:Arial,sans-serif}
 header{padding:22px;background:#101e31;display:flex;justify-content:space-between}
 .logo{color:#00e5a0;font-size:25px;font-weight:bold}
-.hero{text-align:center;padding:65px 20px}
-h1{font-size:42px}
-.green{color:#00e5a0}
-p{color:#b8c5d5;line-height:1.6}
-button{background:#00e5a0;border:0;padding:14px 24px;border-radius:7px;font-weight:bold}
 .container{padding:20px;max-width:900px;margin:auto}
-.card{background:#12243a;padding:22px;border-radius:12px;margin:15px 0}
-.price{font-size:27px;color:#00e5a0}
-footer{text-align:center;padding:30px;color:#8999aa}
+.card{background:#12243a;padding:20px;border-radius:12px;margin:15px 0}
+h1{font-size:32px}
+.green{color:#00e5a0}
+input{width:100%;padding:14px;margin:8px 0;border-radius:7px;border:1px solid #456;background:#07111f;color:white}
+button{background:#00e5a0;color:#07111f;border:0;padding:13px 18px;border-radius:7px;font-weight:bold;margin:5px;cursor:pointer}
+.secondary{background:#263b53;color:white}
+.hidden{display:none}
+.price{font-size:22px;color:#00e5a0}
+footer{text-align:center;padding:25px;color:#999}
 </style>
 </head>
 <body>
 <header>
 <div class="logo">FLYFX</div>
-<div>FOREX ANALYSIS</div>
+<div id="accountStatus">Guest</div>
 </header>
 
-<section class="hero">
-<h1>TRADE SMARTER WITH <span class="green">FLYFX</span></h1>
-<p>Your Forex market analysis and trading signals platform.</p>
-<button onclick="document.getElementById('signals').scrollIntoView()">Explore Signals</button>
+<div class="container">
+<section class="card" id="auth">
+<h2>Welcome to <span class="green">FLYFX</span></h2>
+<p>Create an account or log in.</p>
+<input id="email" type="email" placeholder="Email address">
+<input id="password" type="password" placeholder="Password (minimum 8 characters)">
+<button onclick="signup()">Register</button>
+<button class="secondary" onclick="login()">Login</button>
+<p id="message"></p>
 </section>
 
-<div class="container" id="signals">
+<section class="card hidden" id="dashboard">
+<h2>Welcome to FLYFX!</h2>
+<p>You are successfully logged in.</p>
+<button onclick="logout()">Logout</button>
+</section>
+
+<section>
+<h1>TRADE SMART WITH <span class="green">FLYFX</span></h1>
+<p>Your Forex market analysis and trading signals platform.</p>
+</section>
+
 <h2>Market Watch</h2>
-<div class="card">
-<h3>EUR/USD</h3>
-<p>Forex market analysis</p>
-<div class="price">Market data pending</div>
-</div>
-<div class="card">
-<h3>GBP/USD</h3>
-<p>Forex market analysis</p>
-<div class="price">Market data pending</div>
-</div>
-<div class="card">
-<h3>XAU/USD (GOLD)</h3>
-<p>Gold market analysis</p>
-<div class="price">Market data pending</div>
-</div>
+<div class="card"><h3>EUR/USD</h3><p>Forex market analysis</p><div class="price">Live data pending</div></div>
+<div class="card"><h3>GBP/USD</h3><p>Forex market analysis</p><div class="price">Live data pending</div></div>
+<div class="card"><h3>XAU/USD (GOLD)</h3><p>Gold market analysis</p><div class="price">Live data pending</div></div>
 
 <h2>AI Market Scanner</h2>
 <div class="card">
 <p>Analyze market trends and identify potential trading opportunities.</p>
-<button onclick="alert('AI scanner coming soon!')">Launch AI Scanner</button>
+<button onclick="alert('AI Scanner is coming soon!')">Launch AI Scanner</button>
 </div>
 </div>
 
@@ -62,5 +67,54 @@ footer{text-align:center;padding:30px;color:#8999aa}
 FLYFX © 2026 | Trade responsibly.
 <p>Forex trading involves risk. This website does not guarantee profits.</p>
 </footer>
+
+<script>
+const SUPABASE_URL =;https://alnozethvsfnnvmcsrom.supabase.co;
+const SUPABASE_KEY = ‎sb_publishable_G7h7CMIIYNwzkoaNbYhtOw_OOu9yPIp;
+
+const db = supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+async function signup(){
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+const message=document.getElementById("message");
+if(!email||password.length<8){
+message.textContent="Enter a valid email and password of at least 8 characters.";
+return;
+}
+const {error}=await db.auth.signUp({email,password});
+message.textContent=error?error.message:"Registration submitted! Check your email to confirm your account.";
+}
+
+async function login(){
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+const {data,error}=await db.auth.signInWithPassword({email,password});
+document.getElementById("message").textContent=error?error.message:"Login successful!";
+if(data.session)showDashboard();
+}
+
+async function logout(){
+await db.auth.signOut();
+showLogin();
+}
+
+function showDashboard(){
+document.getElementById("auth").classList.add("hidden");
+document.getElementById("dashboard").classList.remove("hidden");
+document.getElementById("accountStatus").textContent="Logged in";
+}
+
+function showLogin(){
+document.getElementById("auth").classList.remove("hidden");
+document.getElementById("dashboard").classList.add("hidden");
+document.getElementById("accountStatus").textContent="Guest";
+}
+
+db.auth.onAuthStateChange((event,session)=>{
+if(session)showDashboard();
+else showLogin();
+});
+</script>
 </body>
 </html>
